@@ -1,0 +1,19 @@
+from sklearn.linear_model import Lasso
+import numpy as np
+
+X_train, X_test, y_train, y_test = train_test_split(df_X, df_Y, train_size=0.4)
+
+lasso = Lasso().fit(X_train, y_train)
+
+lasso001 = Lasso(alpha=0.0001, max_iter=100000).fit(X_train, y_train)
+
+print("Training set score: {:.2f}".format(lasso001.score(X_train, y_train)))
+print("Test set score: {:.2f}".format(lasso001.score(X_test, y_test)))
+print("Number of features used: {}".format(np.sum(lasso001.coef_ != 0)))
+
+plt.plot(lasso.coef_, 's', label="Lasso alpha=1")
+plt.plot(lasso001.coef_, '^', label="Lasso alpha=0.01")
+plt.legend(ncol=2, loc=(0, 1.05))
+plt.ylim(-25, 25)
+plt.xlabel("Coefficient index")
+plt.ylabel("Coefficient magnitude")
